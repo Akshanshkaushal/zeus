@@ -523,9 +523,7 @@ export default class Settings extends React.Component<SettingsProps, {}> {
                         >
                             <TouchableOpacity
                                 style={styles.columnField}
-                                onPress={() =>
-                                    navigation.navigate('PeersList')
-                                }
+                                onPress={() => navigation.navigate('PeersList')}
                             >
                                 <View style={styles.icon}>
                                     <Icon

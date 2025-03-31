@@ -1,14 +1,13 @@
 import { settingsStore } from '../stores/storeInstances';
 // LND
 import LND from '../backends/LND';
-import LightningNodeConnect from '../backends/LightningNodeConnect';
+import LightningNodeConnect, { Peer } from '../backends/LightningNodeConnect';
 import EmbeddedLND from '../backends/EmbeddedLND';
 // Core Lightning
 import CLNRest from '../backends/CLNRest';
 // Custodial
 import LndHub from '../backends/LndHub';
 import NostrWalletConnect from '../backends/NostrWalletConnect';
-import { Peer } from '../backends/LightningNodeConnect';
 
 class BackendUtils {
     lnd: LND;

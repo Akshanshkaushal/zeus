@@ -941,7 +941,7 @@ export default class App extends React.PureComponent {
                                                             ActivityExport
                                                         }
                                                     />
-                                                       <Stack.Screen
+                                                    <Stack.Screen
                                                         name="PeersList" // @ts-ignore:next-line
                                                         component={PeersList}
                                                     />

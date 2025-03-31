@@ -133,10 +133,15 @@ export default class NostrWalletConnect {
 
     async disconnectPeer(pubkey: string): Promise<boolean> {
         try {
-            console.log(`NostrWalletConnect: disconnectPeer not supported for ${pubkey}`);
+            console.log(
+                `NostrWalletConnect: disconnectPeer not supported for ${pubkey}`
+            );
             return false;
         } catch (error) {
-            console.error(`Error in NostrWalletConnect.disconnectPeer for ${pubkey}:`, error);
+            console.error(
+                `Error in NostrWalletConnect.disconnectPeer for ${pubkey}:`,
+                error
+            );
             return false;
         }
     }

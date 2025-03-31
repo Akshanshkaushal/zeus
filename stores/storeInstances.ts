@@ -12,6 +12,5 @@ export default {
     notesStore,
     settingsStore,
     nodeInfoStore,
-    PeersStore 
+    PeersStore
 };
- 

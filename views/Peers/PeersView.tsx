@@ -39,7 +39,7 @@ class PeersView extends React.Component {
 
     handleDisconnect = (pubKey: string) => {
         const { PeersStore } = this.injected;
-        
+
         Alert.alert(
             localeString('views.Peers.disconnectTitle'),
             localeString('views.Peers.disconnectConfirm'),
@@ -55,7 +55,8 @@ class PeersView extends React.Component {
                         if (!success) {
                             Alert.alert(
                                 localeString('general.error'),
-                                PeersStore.error || localeString('views.Peers.disconnectError')
+                                PeersStore.error ||
+                                    localeString('views.Peers.disconnectError')
                             );
                         }
                     }
@@ -65,30 +66,58 @@ class PeersView extends React.Component {
     };
 
     renderPeerItem = ({ item }: { item: any }) => {
-      
-        
         return (
-            <View style={[styles.peerItem, { backgroundColor: themeColor('secondary') }]}>
+            <View
+                style={[
+                    styles.peerItem,
+                    { backgroundColor: themeColor('secondary') }
+                ]}
+            >
                 <View style={styles.peerInfo}>
-                    <Text style={[styles.pubKey, { color: themeColor('text') }]}>
+                    <Text
+                        style={[styles.pubKey, { color: themeColor('text') }]}
+                    >
                         {item.pub_key}
                     </Text>
-                    <Text style={[styles.address, { color: themeColor('secondaryText') }]}>
+                    <Text
+                        style={[
+                            styles.address,
+                            { color: themeColor('secondaryText') }
+                        ]}
+                    >
                         {item.address}
                     </Text>
                     <View style={styles.statsRow}>
-                        <Text style={[styles.statText, { color: themeColor('secondaryText') }]}>
-                            {localeString('views.Peers.pingTime')}: {item.ping_time}ms
+                        <Text
+                            style={[
+                                styles.statText,
+                                { color: themeColor('secondaryText') }
+                            ]}
+                        >
+                            {localeString('views.Peers.pingTime')}:{' '}
+                            {item.ping_time}ms
                         </Text>
-                        <Text style={[styles.statText, { color: themeColor('secondaryText') }]}>
-                            {localeString('views.Peers.satsSent')}: {item.sat_sent}
+                        <Text
+                            style={[
+                                styles.statText,
+                                { color: themeColor('secondaryText') }
+                            ]}
+                        >
+                            {localeString('views.Peers.satsSent')}:{' '}
+                            {item.sat_sent}
                         </Text>
-                        <Text style={[styles.statText, { color: themeColor('secondaryText') }]}>
-                            {localeString('views.Peers.satsReceived')}: {item.sat_recv}
+                        <Text
+                            style={[
+                                styles.statText,
+                                { color: themeColor('secondaryText') }
+                            ]}
+                        >
+                            {localeString('views.Peers.satsReceived')}:{' '}
+                            {item.sat_recv}
                         </Text>
                     </View>
                 </View>
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.disconnectButton}
                     onPress={() => this.handleDisconnect(item.pub_key)}
                 >
@@ -109,9 +138,8 @@ class PeersView extends React.Component {
     };
 
     render() {
-        const { PeersStore, SettingsStore, navigation } = this.injected;
+        const { PeersStore, navigation } = this.injected;
         const { peers, loading, error } = PeersStore;
-        const { theme } = SettingsStore;
 
         if (loading && peers.length === 0) {
             return (
@@ -127,7 +155,10 @@ class PeersView extends React.Component {
                         }}
                     />
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color={themeColor('highlight')} />
+                        <ActivityIndicator
+                            size="large"
+                            color={themeColor('highlight')}
+                        />
                     </View>
                 </Screen>
             );
@@ -147,18 +178,27 @@ class PeersView extends React.Component {
                 />
                 {peers.length === 0 ? (
                     <View style={styles.emptyContainer}>
-                        <Text style={[styles.emptyText, { color: themeColor('secondaryText') }]}>
-                            {error 
+                        <Text
+                            style={[
+                                styles.emptyText,
+                                { color: themeColor('secondaryText') }
+                            ]}
+                        >
+                            {error
                                 ? localeString('views.Peers.errorLoading')
-                                : localeString('views.Peers.noPeers')
-                            }
+                                : localeString('views.Peers.noPeers')}
                         </Text>
                         {error && (
-                            <TouchableOpacity 
+                            <TouchableOpacity
                                 style={styles.retryButton}
                                 onPress={this.refreshPeers}
                             >
-                                <Text style={[styles.retryText, { color: themeColor('highlight') }]}>
+                                <Text
+                                    style={[
+                                        styles.retryText,
+                                        { color: themeColor('highlight') }
+                                    ]}
+                                >
                                     {localeString('general.retry')}
                                 </Text>
                             </TouchableOpacity>
@@ -249,4 +289,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PeersView; 
+export default PeersView;

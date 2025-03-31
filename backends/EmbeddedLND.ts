@@ -319,7 +319,7 @@ export default class EmbeddedLND extends LND {
         try {
             const response = await listPeers();
             // Transform the response to match the Peer interface
-            return (response.peers || []).map(peer => ({
+            return (response.peers || []).map((peer) => ({
                 pub_key: peer.pub_key || '',
                 address: peer.address || '',
                 bytes_sent: peer.bytes_sent?.toString() || '0',
@@ -328,7 +328,10 @@ export default class EmbeddedLND extends LND {
                 sat_recv: peer.sat_recv?.toString() || '0',
                 inbound: peer.inbound || false,
                 ping_time: peer.ping_time?.toString() || '0',
-                sync_type: typeof peer.sync_type === 'string' ? peer.sync_type : peer.sync_type?.toString() || ''
+                sync_type:
+                    typeof peer.sync_type === 'string'
+                        ? peer.sync_type
+                        : peer.sync_type?.toString() || ''
             }));
         } catch (error) {
             console.error('Error listing peers:', error);

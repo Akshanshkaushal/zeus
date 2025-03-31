@@ -736,7 +736,7 @@ export default class LND implements ILightningNodeConnect {
             throw error;
         }
     }
-    
+
     async disconnectPeer(pubkey: string): Promise<boolean> {
         try {
             await this.deleteRequest(`/v1/peers/${pubkey}`);

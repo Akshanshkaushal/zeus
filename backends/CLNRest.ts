@@ -451,10 +451,15 @@ export default class CLNRest {
         try {
             // If CLN REST API supports disconnecting peers, implement the actual API call here
             // For now, return false as a placeholder
-            console.log(`CLNRest: disconnectPeer not fully implemented for ${pubkey}`);
+            console.log(
+                `CLNRest: disconnectPeer not fully implemented for ${pubkey}`
+            );
             return false;
         } catch (error) {
-            console.error(`Error disconnecting peer ${pubkey} in CLNRest:`, error);
+            console.error(
+                `Error disconnecting peer ${pubkey} in CLNRest:`,
+                error
+            );
             return false;
         }
     }

@@ -1,6 +1,7 @@
 import LND from './LND';
 import OpenChannelRequest from '../models/OpenChannelRequest';
 import Base64Utils from './../utils/Base64Utils';
+import { Peer } from './LightningNodeConnect';
 
 import lndMobile from '../lndmobile/LndMobileInjection';
 
@@ -10,7 +11,6 @@ import {
 } from '../utils/LndMobileUtils';
 
 const {
-    addInvoice,
     getInfo,
     connectPeer,
     listInvoices,
@@ -26,7 +26,9 @@ const {
     lookupInvoice,
     fundingStateStep,
     sendCustomMessage,
-    subscribeCustomMessages
+    subscribeCustomMessages,
+    listPeers,
+    disconnectPeer
 } = lndMobile.index;
 const {
     channelBalance,
@@ -87,18 +89,6 @@ export default class EmbeddedLND extends LND {
     getNetworkInfo = async () => await getNetworkInfo();
     getRecoveryInfo = async () => await getRecoveryInfo();
     getInvoices = async () => await listInvoices();
-    createInvoice = async (data: any) =>
-        await addInvoice({
-            amount: data.value ? Number(data.value) : undefined,
-            amount_msat: data.value_msat ? Number(data.value_msat) : undefined,
-            memo: data.memo,
-            expiry: data.expiry,
-            is_amp: data.is_amp,
-            is_blinded: data.is_blinded,
-            is_private: data.private,
-            preimage: data.preimage,
-            route_hints: data.route_hints
-        });
     getPayments = async (params?: {
         maxPayments?: number;
         reversed?: boolean;
@@ -325,4 +315,33 @@ export default class EmbeddedLND extends LND {
     supportsAddressesWithDerivationPaths = () => this.supports('v0.18.0');
     isLNDBased = () => true;
     supportInboundFees = () => this.supports('v0.18.0');
+    async listPeers(): Promise<Peer[]> {
+        try {
+            const response = await listPeers();
+            // Transform the response to match the Peer interface
+            return (response.peers || []).map(peer => ({
+                pub_key: peer.pub_key || '',
+                address: peer.address || '',
+                bytes_sent: peer.bytes_sent?.toString() || '0',
+                bytes_recv: peer.bytes_recv?.toString() || '0',
+                sat_sent: peer.sat_sent?.toString() || '0',
+                sat_recv: peer.sat_recv?.toString() || '0',
+                inbound: peer.inbound || false,
+                ping_time: peer.ping_time?.toString() || '0',
+                sync_type: typeof peer.sync_type === 'string' ? peer.sync_type : peer.sync_type?.toString() || ''
+            }));
+        } catch (error) {
+            console.error('Error listing peers:', error);
+            return [];
+        }
+    }
+    async disconnectPeer(pubkey: string): Promise<boolean> {
+        try {
+            await disconnectPeer(pubkey);
+            return true;
+        } catch (error) {
+            console.error(`Error disconnecting peer ${pubkey}:`, error);
+            return false;
+        }
+    }
 }

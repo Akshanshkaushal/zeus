@@ -103,6 +103,7 @@ import LNDLogs from './views/Settings/EmbeddedNode/LNDLogs';
 import Peers from './views/Settings/EmbeddedNode/Peers';
 import NeutrinoPeers from './views/Settings/EmbeddedNode/Peers/NeutrinoPeers';
 import ZeroConfPeers from './views/Settings/EmbeddedNode/Peers/ZeroConfPeers';
+import PeersList from './views/Peers/PeersView';
 import Advanced from './views/Settings/EmbeddedNode/Advanced';
 import AdvancedRescan from './views/Settings/EmbeddedNode/AdvancedRescan';
 import Troubleshooting from './views/Settings/EmbeddedNode/Troubleshooting';
@@ -183,6 +184,7 @@ import ImportAccount from './views/Tools/Accounts/ImportAccount';
 import ImportingAccount from './views/Tools/Accounts/ImportingAccount';
 
 import { isLightTheme, themeColor } from './utils/ThemeUtils';
+import { PeersStore } from './stores/storeInstances';
 
 export default class App extends React.PureComponent {
     private backPressListenerSubscription: NativeEventSubscription;
@@ -236,6 +238,7 @@ export default class App extends React.PureComponent {
                 LightningAddressStore={Stores.lightningAddressStore}
                 ChannelBackupStore={Stores.channelBackupStore}
                 OffersStore={Stores.offersStore}
+                PeersStore={PeersStore}
             >
                 <AppContainer>
                     <PushNotificationManager>
@@ -937,6 +940,10 @@ export default class App extends React.PureComponent {
                                                         component={
                                                             ActivityExport
                                                         }
+                                                    />
+                                                       <Stack.Screen
+                                                        name="PeersList" // @ts-ignore:next-line
+                                                        component={PeersList}
                                                     />
                                                 </Stack.Navigator>
                                             </NavigationContainer>

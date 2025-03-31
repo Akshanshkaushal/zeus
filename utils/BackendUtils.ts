@@ -8,6 +8,7 @@ import CLNRest from '../backends/CLNRest';
 // Custodial
 import LndHub from '../backends/LndHub';
 import NostrWalletConnect from '../backends/NostrWalletConnect';
+import { Peer } from '../backends/LightningNodeConnect';
 
 class BackendUtils {
     lnd: LND;
@@ -187,7 +188,38 @@ class BackendUtils {
     initNWC = (...args: any[]) => this.call('initNWC', args);
 
     clearCachedCalls = (...args: any[]) => this.call('clearCachedCalls', args);
+
+    listPeers = (...args: any[]) => this.call('listPeers', args);
+    disconnectPeer = (...args: any[]) => this.call('disconnectPeer', args);
 }
 
 const backendUtils = new BackendUtils();
 export default backendUtils;
+
+export const listPeers = async (): Promise<Peer[]> => {
+    try {
+        const backend = backendUtils.getClass();
+        if (!backend || !backend.listPeers) {
+            console.log('Backend does not support listPeers');
+            return [];
+        }
+        return await backend.listPeers();
+    } catch (error) {
+        console.log('Error listing peers:', error);
+        return [];
+    }
+};
+
+export const disconnectPeer = async (pubKey: string): Promise<boolean> => {
+    try {
+        const backend = backendUtils.getClass();
+        if (!backend || !backend.disconnectPeer) {
+            console.log('Backend does not support disconnectPeer');
+            return false;
+        }
+        return await backend.disconnectPeer(pubKey);
+    } catch (error) {
+        console.log('Error disconnecting peer:', error);
+        return false;
+    }
+};

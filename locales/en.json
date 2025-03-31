@@ -1387,5 +1387,40 @@
     "views.OnChainAddresses.createAddress": "Create address",
     "views.OnChainAddresses.changeAddresses": "Change addresses",
     "androidNotification.lndRunningBackground": "LND is running in the background",
-    "androidNotification.shutdown": "Shutdown"
+    "androidNotification.shutdown": "Shutdown",
+    "views.Peers.title": "Connected Peers",
+    "views.Peers.noPeers": "No connected peers found",
+    "views.Peers.refresh": "Refresh",
+    "views.Peers.disconnectTitle": "Disconnect Peer",
+    "views.Peers.disconnectConfirm": "Are you sure you want to disconnect from this peer?",
+    "views.Peers.disconnectError": "Failed to disconnect from peer",
+    "views.Peers.pingTime": "Ping Time",
+    "views.Peers.satsSent": "Sats Sent",
+    "views.Peers.satsReceived": "Sats Received",
+    "views.Peers.errorLoading": "Error loading peers",
+    "navigation": {
+        "peers": "Lightning Peers"
+    },
+    "settings": {
+        "managePeers": "Manage Peers"
+    },
+    "peers": {
+        "title": "Lightning Peers",
+        "noPeers": "No connected peers",
+        "sent": "Sent",
+        "received": "Received",
+        "disconnectTitle": "Disconnect Peer",
+        "disconnectConfirm": "Are you sure you want to disconnect from this peer?",
+        "disconnectSuccess": "Peer disconnected successfully"
+    },
+    "common": {
+        "disconnect": "Disconnect",
+        "retry": "Retry",
+        "cancel": "Cancel"
+    },
+    "views": {
+        "Settings": {
+            "peers": "Lightning Network Peers"
+        }
+    }
 }

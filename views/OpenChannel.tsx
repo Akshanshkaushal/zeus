@@ -60,7 +60,10 @@ interface OpenChannelProps {
     NodeInfoStore: NodeInfoStore;
     SettingsStore: SettingsStore;
     UTXOsStore: UTXOsStore;
-    route: Route<'OpenChannel', { node_pubkey_string: string; host: string; connectPeerOnly?: boolean }>;
+    route: Route<
+        'OpenChannel',
+        { node_pubkey_string: string; host: string; connectPeerOnly?: boolean }
+    >;
 }
 
 interface OpenChannelState {
@@ -241,7 +244,7 @@ export default class OpenChannel extends React.Component<
                 ? node_pubkey_string
                 : olympusPubkey,
             host: node_pubkey_string ? host : olympusHost,
-            connectPeerOnly: connectPeerOnly
+            connectPeerOnly
         });
     }
 

@@ -154,7 +154,7 @@ class PeersView extends React.Component {
                         leftComponent="Back"
                         centerComponent={{
                             text: localeString('views.Peers.title'),
-                            style: { 
+                            style: {
                                 color: themeColor('text'),
                                 fontFamily: 'PPNeueMontreal-Book'
                             }
@@ -177,18 +177,21 @@ class PeersView extends React.Component {
                     leftComponent="Back"
                     centerComponent={{
                         text: localeString('views.Peers.title'),
-                        style: { 
+                        style: {
                             color: themeColor('text'),
                             fontFamily: 'PPNeueMontreal-Book'
                         }
                     }}
                     navigation={navigation}
                 />
-                
+
                 {/* Connect peer button */}
                 <View style={styles.connectButtonContainer}>
                     <Button
-                        title={localeString('views.Peers.connectPeer') || "Connect Peer"}
+                        title={
+                            localeString('views.Peers.connectPeer') ||
+                            'Connect Peer'
+                        }
                         onPress={this.navigateToConnectPeer}
                         ViewComponent={LinearGradient}
                         linearGradientProps={{
@@ -205,7 +208,7 @@ class PeersView extends React.Component {
                         }}
                     />
                 </View>
-                
+
                 {peers.length === 0 ? (
                     <View style={styles.emptyContainer}>
                         <Text

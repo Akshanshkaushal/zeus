@@ -151,14 +151,15 @@ class PeersView extends React.Component {
             return (
                 <Screen>
                     <Header
-                        leftComponent={{
-                            icon: 'arrow-back',
-                            onPress: () => navigation.goBack()
-                        }}
+                        leftComponent="Back"
                         centerComponent={{
                             text: localeString('views.Peers.title'),
-                            style: { color: themeColor('text') }
+                            style: { 
+                                color: themeColor('text'),
+                                fontFamily: 'PPNeueMontreal-Book'
+                            }
                         }}
+                        navigation={navigation}
                     />
                     <View style={styles.loadingContainer}>
                         <ActivityIndicator
@@ -173,14 +174,15 @@ class PeersView extends React.Component {
         return (
             <Screen>
                 <Header
-                    leftComponent={{
-                        icon: 'arrow-back',
-                        onPress: () => navigation.goBack()
-                    }}
+                    leftComponent="Back"
                     centerComponent={{
                         text: localeString('views.Peers.title'),
-                        style: { color: themeColor('text') }
+                        style: { 
+                            color: themeColor('text'),
+                            fontFamily: 'PPNeueMontreal-Book'
+                        }
                     }}
+                    navigation={navigation}
                 />
                 
                 {/* Connect peer button */}

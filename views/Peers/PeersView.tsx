@@ -9,12 +9,13 @@ import {
     ActivityIndicator,
     Alert
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
 import { inject, observer } from 'mobx-react';
 import { themeColor } from '../../utils/ThemeUtils';
 import { localeString } from '../../utils/LocaleUtils';
 import Screen from '../../components/Screen';
 import Header from '../../components/Header';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Define the props that will be injected by MobX
 interface InjectedProps {
@@ -63,6 +64,11 @@ class PeersView extends React.Component {
                 }
             ]
         );
+    };
+
+    navigateToConnectPeer = () => {
+        const { navigation } = this.injected;
+        navigation.navigate('OpenChannel', { connectPeerOnly: true });
     };
 
     renderPeerItem = ({ item }: { item: any }) => {
@@ -176,6 +182,28 @@ class PeersView extends React.Component {
                         style: { color: themeColor('text') }
                     }}
                 />
+                
+                {/* Connect peer button */}
+                <View style={styles.connectButtonContainer}>
+                    <Button
+                        title={localeString('views.Peers.connectPeer') || "Connect Peer"}
+                        onPress={this.navigateToConnectPeer}
+                        ViewComponent={LinearGradient}
+                        linearGradientProps={{
+                            colors: ['rgb(180, 26, 20)', 'rgb(255, 169, 0)'],
+                            start: { x: 0, y: 0.5 },
+                            end: { x: 1, y: 0.5 }
+                        }}
+                        buttonStyle={styles.connectButton}
+                        icon={{
+                            name: 'plus',
+                            type: 'material-community',
+                            color: 'white',
+                            size: 18
+                        }}
+                    />
+                </View>
+                
                 {peers.length === 0 ? (
                     <View style={styles.emptyContainer}>
                         <Text
@@ -229,6 +257,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    connectButtonContainer: {
+        padding: 16,
+        paddingBottom: 8
+    },
+    connectButton: {
+        borderRadius: 8,
+        paddingVertical: 10
     },
     listContainer: {
         padding: 16,

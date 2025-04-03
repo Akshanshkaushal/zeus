@@ -237,7 +237,7 @@ export default class App extends React.PureComponent {
                 LightningAddressStore={Stores.lightningAddressStore}
                 ChannelBackupStore={Stores.channelBackupStore}
                 OffersStore={Stores.offersStore}
-                peersStore={Stores.peersStore}
+                PeersStore={Stores.peersStore}
             >
                 <AppContainer>
                     <PushNotificationManager>

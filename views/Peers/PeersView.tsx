@@ -18,28 +18,28 @@ import Header from '../../components/Header';
 import LinearGradient from 'react-native-linear-gradient';
 
 interface InjectedProps {
-    peersStore: any;
+    PeersStore: any;
     SettingsStore: any;
     navigation: any;
 }
 
-@inject('SettingsStore', 'peersStore')
+@inject('SettingsStore', 'PeersStore')
 @observer
 class PeersView extends React.Component<InjectedProps> {
     componentDidMount() {
-        const { peersStore } = this.props;
-        if (peersStore) {
+        const { PeersStore } = this.props;
+        if (PeersStore) {
             console.log('Fetching peers...');
-            peersStore.fetchPeers();
-            console.log('Peers fetched:', peersStore.peers);
+            PeersStore.fetchPeers();
+            console.log('Peers fetched:', PeersStore.peers);
         } else {
-            console.error('peersStore is not defined');
+            console.error('PeersStore is not defined');
         }
     }
 
     handleDisconnect = (pubKey: string) => {
-        const { peersStore } = this.props;
-        if (!peersStore) return;
+        const { PeersStore } = this.props;
+        if (!PeersStore) return;
 
         Alert.alert(
             localeString('views.Peers.disconnectTitle'),
@@ -52,11 +52,11 @@ class PeersView extends React.Component<InjectedProps> {
                 {
                     text: localeString('general.confirm'),
                     onPress: async () => {
-                        const success = await peersStore.disconnectPeer(pubKey);
+                        const success = await PeersStore.disconnectPeer(pubKey);
                         if (!success) {
                             Alert.alert(
                                 localeString('general.error'),
-                                peersStore.error ||
+                                PeersStore.error ||
                                     localeString('views.Peers.disconnectError')
                             );
                         }
@@ -139,16 +139,16 @@ class PeersView extends React.Component<InjectedProps> {
     };
 
     refreshPeers = () => {
-        const { peersStore } = this.props;
-        if (peersStore) {
-            peersStore.fetchPeers();
+        const { PeersStore } = this.props;
+        if (PeersStore) {
+            PeersStore.fetchPeers();
         }
     };
 
     render() {
-        const { peersStore, navigation } = this.props;
+        const { PeersStore, navigation } = this.props;
 
-        if (!peersStore) {
+        if (!PeersStore) {
             return (
                 <Screen>
                     <Header
@@ -176,7 +176,7 @@ class PeersView extends React.Component<InjectedProps> {
             );
         }
 
-        const { peers = [], loading = false, error = null } = peersStore;
+        const { peers = [], loading = false, error = null } = PeersStore;
 
         if (loading && peers.length === 0) {
             return (

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Icon } from 'react-native-elements';
+ 
 
 import ForwardIcon from '../../assets/images/SVG/Caret Right-3.svg';
 import ChannelsIcon from '../../assets/images/SVG/Channels.svg';
@@ -511,42 +511,6 @@ export default class Settings extends React.Component<SettingsProps, {}> {
                         </View>
                     )}
 
-                    {selectedNode && (
-                        <View
-                            style={{
-                                backgroundColor: themeColor('secondary'),
-                                width: '90%',
-                                borderRadius: 10,
-                                alignSelf: 'center',
-                                marginVertical: 5
-                            }}
-                        >
-                            <TouchableOpacity
-                                style={styles.columnField}
-                                onPress={() => navigation.navigate('PeersList')}
-                            >
-                                <View style={styles.icon}>
-                                    <Icon
-                                        name="account-network"
-                                        type="material-community"
-                                        size={24}
-                                        color={themeColor('text')}
-                                    />
-                                </View>
-                                <Text
-                                    style={{
-                                        ...styles.columnText,
-                                        color: themeColor('text')
-                                    }}
-                                >
-                                    {localeString('views.Settings.peers')}
-                                </Text>
-                                <View style={styles.ForwardArrow}>
-                                    <ForwardIcon stroke={forwardArrowColor} />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    )}
                 </ScrollView>
             </Screen>
         );

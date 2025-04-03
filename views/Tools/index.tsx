@@ -364,7 +364,44 @@ export default class Tools extends React.Component<ToolsProps, {}> {
                                 </View>
                             </TouchableOpacity>
                         </View>
+                        
                     )}
+                      {selectedNode && (
+                                            <View
+                                                style={{
+                                                    backgroundColor: themeColor('secondary'),
+                                                    width: '90%',
+                                                    borderRadius: 10,
+                                                    alignSelf: 'center',
+                                                    marginVertical: 5
+                                                }}
+                                            >
+                                                <TouchableOpacity
+                                                    style={styles.columnField}
+                                                    onPress={() => navigation.navigate('PeersList')}
+                                                >
+                                                    <View style={styles.icon}>
+                                                        <Icon
+                                                            name="account-network"
+                                                            type="material-community"
+                                                            size={24}
+                                                            color={themeColor('text')}
+                                                        />
+                                                    </View>
+                                                    <Text
+                                                        style={{
+                                                            ...styles.columnText,
+                                                            color: themeColor('text')
+                                                        }}
+                                                    >
+                                                        {localeString('views.Settings.peers')}
+                                                    </Text>
+                                                    <View style={styles.ForwardArrow}>
+                                                        <ForwardIcon stroke={forwardArrowColor} />
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        )}
                 </ScrollView>
             </Screen>
         );

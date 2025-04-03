@@ -6,7 +6,6 @@ import Base64Utils from './../utils/Base64Utils';
 import VersionUtils from './../utils/VersionUtils';
 import { localeString } from './../utils/LocaleUtils';
 import { Hash as sha256Hash } from 'fast-sha256';
-import { ILightningNodeConnect, Peer } from './LightningNodeConnect';
 
 interface Headers {
     macaroon?: string;
@@ -18,7 +17,7 @@ interface Headers {
 // keep track of all active calls so we can cancel when appropriate
 const calls = new Map<string, Promise<any>>();
 
-export default class LND implements ILightningNodeConnect {
+export default class LND {
     torSocksPort?: number = undefined;
 
     clearCachedCalls = () => calls.clear();
@@ -724,26 +723,17 @@ export default class LND implements ILightningNodeConnect {
     supportsAddressesWithDerivationPaths = () => this.supports('v0.18.0');
     isLNDBased = () => true;
     supportInboundFees = () => this.supports('v0.18.0');
-    supportsPeerManagement = () => true;
 
-    // Add new methods for peer management
-    async listPeers(): Promise<Peer[]> {
-        try {
-            const response = await this.getRequest('/v1/peers');
-            return response.data.peers || [];
-        } catch (error) {
-            console.error('Error listing peers:', error);
-            throw error;
-        }
-    }
+    listPeers = () =>
+        this.getRequest('/v1/peers').then(
+            (response: any) => response.data.peers || []
+        );
 
-    async disconnectPeer(pubkey: string): Promise<boolean> {
-        try {
-            await this.deleteRequest(`/v1/peers/${pubkey}`);
-            return true;
-        } catch (error) {
-            console.error(`Error disconnecting peer ${pubkey}:`, error);
-            return false;
-        }
-    }
+    disconnectPeer = (pubkey: string) =>
+        this.deleteRequest(`/v1/peers/${pubkey}`)
+            .then(() => true)
+            .catch((error) => {
+                console.error(`Error disconnecting peer ${pubkey}:`, error);
+                return false;
+            });
 }

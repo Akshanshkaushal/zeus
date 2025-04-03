@@ -1,7 +1,7 @@
 import { settingsStore } from '../stores/storeInstances';
 // LND
 import LND from '../backends/LND';
-import LightningNodeConnect, { Peer } from '../backends/LightningNodeConnect';
+import LightningNodeConnect from '../backends/LightningNodeConnect';
 import EmbeddedLND from '../backends/EmbeddedLND';
 // Core Lightning
 import CLNRest from '../backends/CLNRest';
@@ -195,30 +195,20 @@ class BackendUtils {
 const backendUtils = new BackendUtils();
 export default backendUtils;
 
-export const listPeers = async (): Promise<Peer[]> => {
-    try {
-        const backend = backendUtils.getClass();
-        if (!backend || !backend.listPeers) {
-            console.log('Backend does not support listPeers');
-            return [];
-        }
-        return await backend.listPeers();
-    } catch (error) {
-        console.log('Error listing peers:', error);
-        return [];
+export const listPeers = () => {
+    const backend = backendUtils.getClass() as any;
+    if (!backend || !backend.listPeers) {
+        console.log('Backend does not support listPeers');
+        return { peers: [] };
     }
+    return backend.listPeers();
 };
 
-export const disconnectPeer = async (pubKey: string): Promise<boolean> => {
-    try {
-        const backend = backendUtils.getClass();
-        if (!backend || !backend.disconnectPeer) {
-            console.log('Backend does not support disconnectPeer');
-            return false;
-        }
-        return await backend.disconnectPeer(pubKey);
-    } catch (error) {
-        console.log('Error disconnecting peer:', error);
+export const disconnectPeer = (pubKey: string) => {
+    const backend = backendUtils.getClass() as any;
+    if (!backend || !backend.disconnectPeer) {
+        console.log('Backend does not support disconnectPeer');
         return false;
     }
+    return backend.disconnectPeer(pubKey);
 };

@@ -184,7 +184,6 @@ import ImportAccount from './views/Tools/Accounts/ImportAccount';
 import ImportingAccount from './views/Tools/Accounts/ImportingAccount';
 
 import { isLightTheme, themeColor } from './utils/ThemeUtils';
-import { PeersStore } from './stores/storeInstances';
 
 export default class App extends React.PureComponent {
     private backPressListenerSubscription: NativeEventSubscription;
@@ -238,7 +237,7 @@ export default class App extends React.PureComponent {
                 LightningAddressStore={Stores.lightningAddressStore}
                 ChannelBackupStore={Stores.channelBackupStore}
                 OffersStore={Stores.offersStore}
-                PeersStore={PeersStore}
+                peersStore={Stores.peersStore}
             >
                 <AppContainer>
                     <PushNotificationManager>

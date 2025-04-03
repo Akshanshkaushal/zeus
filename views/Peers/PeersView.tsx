@@ -17,29 +17,29 @@ import Screen from '../../components/Screen';
 import Header from '../../components/Header';
 import LinearGradient from 'react-native-linear-gradient';
 
-// Define the props that will be injected by MobX
 interface InjectedProps {
-    PeersStore: any;
+    peersStore: any;
     SettingsStore: any;
     navigation: any;
 }
 
-// The component doesn't require any props from outside
-@inject('SettingsStore', 'PeersStore')
+@inject('SettingsStore', 'peersStore')
 @observer
-class PeersView extends React.Component {
-    // This getter helps TypeScript understand the injected props
-    get injected() {
-        return this.props as InjectedProps;
-    }
-
+class PeersView extends React.Component<InjectedProps> {
     componentDidMount() {
-        const { PeersStore } = this.injected;
-        PeersStore.fetchPeers();
+        const { peersStore } = this.props;
+        if (peersStore) {
+            console.log('Fetching peers...');
+            peersStore.fetchPeers();
+            console.log('Peers fetched:', peersStore.peers);
+        } else {
+            console.error('peersStore is not defined');
+        }
     }
 
     handleDisconnect = (pubKey: string) => {
-        const { PeersStore } = this.injected;
+        const { peersStore } = this.props;
+        if (!peersStore) return;
 
         Alert.alert(
             localeString('views.Peers.disconnectTitle'),
@@ -52,11 +52,11 @@ class PeersView extends React.Component {
                 {
                     text: localeString('general.confirm'),
                     onPress: async () => {
-                        const success = await PeersStore.disconnectPeer(pubKey);
+                        const success = await peersStore.disconnectPeer(pubKey);
                         if (!success) {
                             Alert.alert(
                                 localeString('general.error'),
-                                PeersStore.error ||
+                                peersStore.error ||
                                     localeString('views.Peers.disconnectError')
                             );
                         }
@@ -67,7 +67,7 @@ class PeersView extends React.Component {
     };
 
     navigateToConnectPeer = () => {
-        const { navigation } = this.injected;
+        const { navigation } = this.props;
         navigation.navigate('OpenChannel', { connectPeerOnly: true });
     };
 
@@ -139,13 +139,44 @@ class PeersView extends React.Component {
     };
 
     refreshPeers = () => {
-        const { PeersStore } = this.injected;
-        PeersStore.fetchPeers();
+        const { peersStore } = this.props;
+        if (peersStore) {
+            peersStore.fetchPeers();
+        }
     };
 
     render() {
-        const { PeersStore, navigation } = this.injected;
-        const { peers, loading, error } = PeersStore;
+        const { peersStore, navigation } = this.props;
+
+        if (!peersStore) {
+            return (
+                <Screen>
+                    <Header
+                        leftComponent="Back"
+                        centerComponent={{
+                            text: localeString('views.Peers.title'),
+                            style: {
+                                color: themeColor('text'),
+                                fontFamily: 'PPNeueMontreal-Book'
+                            }
+                        }}
+                        navigation={navigation}
+                    />
+                    <View style={styles.emptyContainer}>
+                        <Text
+                            style={[
+                                styles.emptyText,
+                                { color: themeColor('secondaryText') }
+                            ]}
+                        >
+                            Store initialization error
+                        </Text>
+                    </View>
+                </Screen>
+            );
+        }
+
+        const { peers = [], loading = false, error = null } = peersStore;
 
         if (loading && peers.length === 0) {
             return (
@@ -185,7 +216,6 @@ class PeersView extends React.Component {
                     navigation={navigation}
                 />
 
-                {/* Connect peer button */}
                 <View style={styles.connectButtonContainer}>
                     <Button
                         title={

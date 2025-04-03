@@ -1,7 +1,6 @@
 import LND from './LND';
 import OpenChannelRequest from '../models/OpenChannelRequest';
 import Base64Utils from './../utils/Base64Utils';
-import { Peer } from './LightningNodeConnect';
 
 import lndMobile from '../lndmobile/LndMobileInjection';
 
@@ -315,36 +314,46 @@ export default class EmbeddedLND extends LND {
     supportsAddressesWithDerivationPaths = () => this.supports('v0.18.0');
     isLNDBased = () => true;
     supportInboundFees = () => this.supports('v0.18.0');
-    async listPeers(): Promise<Peer[]> {
+
+    listPeers = async () => {
         try {
             const response = await listPeers();
-            // Transform the response to match the Peer interface
-            return (response.peers || []).map((peer) => ({
-                pub_key: peer.pub_key || '',
-                address: peer.address || '',
-                bytes_sent: peer.bytes_sent?.toString() || '0',
-                bytes_recv: peer.bytes_recv?.toString() || '0',
-                sat_sent: peer.sat_sent?.toString() || '0',
-                sat_recv: peer.sat_recv?.toString() || '0',
-                inbound: peer.inbound || false,
-                ping_time: peer.ping_time?.toString() || '0',
-                sync_type:
-                    typeof peer.sync_type === 'string'
-                        ? peer.sync_type
-                        : peer.sync_type?.toString() || ''
-            }));
+            console.log('Raw listPeers response:', response); // Log the raw response
+
+            const peers = (response.peers || []).map((peer) => {
+                const formattedPeer = {
+                    pub_key: peer.pub_key || '',
+                    address: peer.address || '',
+                    bytes_sent: peer.bytes_sent?.toString() || '0',
+                    bytes_recv: peer.bytes_recv?.toString() || '0',
+                    sat_sent: peer.sat_sent?.toString() || '0',
+                    sat_recv: peer.sat_recv?.toString() || '0',
+                    inbound: peer.inbound || false,
+                    ping_time: peer.ping_time?.toString() || '0',
+                    sync_type:
+                        typeof peer.sync_type === 'string'
+                            ? peer.sync_type
+                            : peer.sync_type?.toString() || ''
+                };
+                console.log('Formatted peer:', formattedPeer); // Log each formatted peer
+                return formattedPeer;
+            });
+
+            console.log('Formatted peers list:', peers); // Log the final formatted list
+            return peers;
         } catch (error) {
-            console.error('Error listing peers:', error);
-            return [];
+            console.error('Error fetching peers:', error); // Log any errors
+            throw error;
         }
-    }
-    async disconnectPeer(pubkey: string): Promise<boolean> {
+    };
+
+    disconnectPeer = async (pubKey: string) => {
         try {
-            await disconnectPeer(pubkey);
+            await disconnectPeer(pubKey);
             return true;
         } catch (error) {
-            console.error(`Error disconnecting peer ${pubkey}:`, error);
+            console.error(`Error disconnecting peer ${pubKey}:`, error);
             return false;
         }
-    }
+    };
 }

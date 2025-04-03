@@ -4,7 +4,6 @@ import { webln } from '@getalby/sdk';
 import { settingsStore } from '../stores/storeInstances';
 
 import Base64Utils from '../utils/Base64Utils';
-import { Peer } from './LightningNodeConnect';
 
 export default class NostrWalletConnect {
     nwc: any;
@@ -120,29 +119,4 @@ export default class NostrWalletConnect {
     supportsAddressesWithDerivationPaths = () => false;
     isLNDBased = () => false;
     supportInboundFees = () => false;
-
-    async listPeers(): Promise<Peer[]> {
-        try {
-            console.log('NostrWalletConnect: listPeers not supported');
-            return [];
-        } catch (error) {
-            console.error('Error in NostrWalletConnect.listPeers:', error);
-            return [];
-        }
-    }
-
-    async disconnectPeer(pubkey: string): Promise<boolean> {
-        try {
-            console.log(
-                `NostrWalletConnect: disconnectPeer not supported for ${pubkey}`
-            );
-            return false;
-        } catch (error) {
-            console.error(
-                `Error in NostrWalletConnect.disconnectPeer for ${pubkey}:`,
-                error
-            );
-            return false;
-        }
-    }
 }

@@ -710,6 +710,7 @@
     "views.NostrContacts.nip05Error": "Error fetching NIP-05 profile",
     "views.ContactDetails.saveToContacts": "Save to Contacts",
     "views.ContactDetails.editAndSaveContact": "Edit and Save Contact",
+    "views.ContactDetails.includeSenderName": "Include my name with payment",
     "views.ContactInfo.title": "Contact Info",
     "views.Tools.title": "Tools",
     "views.Tools.developers": "Developers",
@@ -1398,29 +1399,8 @@
     "views.Peers.satsSent": "Sats Sent",
     "views.Peers.satsReceived": "Sats Received",
     "views.Peers.errorLoading": "Error loading peers",
-    "navigation": {
-        "peers": "Lightning Peers"
-    },
-    "settings": {
-        "managePeers": "Manage Peers"
-    },
-    "peers": {
-        "title": "Lightning Peers",
-        "noPeers": "No connected peers",
-        "sent": "Sent",
-        "received": "Received",
-        "disconnectTitle": "Disconnect Peer",
-        "disconnectConfirm": "Are you sure you want to disconnect from this peer?",
-        "disconnectSuccess": "Peer disconnected successfully"
-    },
-    "common": {
-        "disconnect": "Disconnect",
-        "retry": "Retry",
-        "cancel": "Cancel"
-    },
-    "views": {
-        "Settings": {
-            "peers": "Lightning Network Peers"
-        }
-    }
+    "views.Peers.disconnectSuccess": "Peer disconnected successfully",
+    "navigation.peers": "Lightning Peers",
+    "settings.managePeers": "Manage Peers",
+    "views.Settings.peers": "Peers"
 }

@@ -1,40 +1,43 @@
 import { observable, action, runInAction } from 'mobx';
-import BackendUtils from '../utils/BackendUtils';
+import { lnrpc } from '../zeus_modules/@lightninglabs/lnc-core';
+import { listPeers, disconnectPeer } from '../utils/BackendUtils';
 
-export interface Peer {
-    pub_key: string;
-    address: string;
-    bytes_sent: string;
-    bytes_recv: string;
-    sat_sent: string;
-    sat_recv: string;
-    inbound: boolean;
-    ping_time: string;
-    sync_type: string;
-}
+export type Peer = lnrpc.Peer;
 
-export class PeersStore {
+export default class PeersStore {
     @observable peers: Peer[] = [];
     @observable loading: boolean = false;
     @observable error: string | null = null;
 
-    constructor() {
-        // No need for makeObservable in older MobX versions
-        // The @observable and @action decorators handle this
+    @action
+    resetPeers() {
+        console.log('Resetting peers...');
+        this.peers = [];
+        this.loading = false;
+        this.error = null;
     }
 
     @action
     async fetchPeers() {
+        console.log('Starting fetchPeers...');
         this.loading = true;
         this.error = null;
 
         try {
-            const peers = await BackendUtils.listPeers();
+            const response = await listPeers();
+            console.log('listPeers API response:', response);
+
             runInAction(() => {
-                this.peers = peers;
+                this.peers = response.map((peer: any) => ({
+                    ...peer,
+                    pubKey: peer.pub_key
+                }));
+                console.log('Normalized peers in store:', this.peers);
                 this.loading = false;
             });
         } catch (error: unknown) {
+            console.error('Error in fetchPeers:', error);
+
             runInAction(() => {
                 this.error =
                     error instanceof Error
@@ -47,17 +50,35 @@ export class PeersStore {
 
     @action
     async disconnectPeer(pubkey: string) {
+        console.log(`Attempting to disconnect peer with pubkey: ${pubkey}`);
+        console.log('Current peers in store:', this.peers);
+
         this.loading = true;
         this.error = null;
 
         try {
-            const success = await BackendUtils.disconnectPeer(pubkey);
+            const peerExists = this.peers.some(
+                (peer) => peer.pubKey === pubkey
+            );
+            if (!peerExists) {
+                console.warn(
+                    `Peer with pubkey ${pubkey} not found in the store.`
+                );
+                throw new Error(`Peer with pubkey ${pubkey} is not connected.`);
+            }
+
+            const success = await disconnectPeer(pubkey);
+            console.log(
+                `disconnectPeer API response for pubkey ${pubkey}:`,
+                success
+            );
+
             if (success) {
-                // Remove the peer from the list if disconnection was successful
                 runInAction(() => {
                     this.peers = this.peers.filter(
-                        (peer) => peer.pub_key !== pubkey
+                        (peer) => peer.pubKey !== pubkey
                     );
+                    console.log('Updated peers after disconnect:', this.peers);
                     this.loading = false;
                 });
                 return true;
@@ -65,6 +86,11 @@ export class PeersStore {
                 throw new Error('Failed to disconnect peer');
             }
         } catch (error: unknown) {
+            console.error(
+                `Error in disconnectPeer for pubkey ${pubkey}:`,
+                error
+            );
+
             runInAction(() => {
                 this.error =
                     error instanceof Error
@@ -76,5 +102,3 @@ export class PeersStore {
         }
     }
 }
-
-export default new PeersStore();

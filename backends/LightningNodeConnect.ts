@@ -32,31 +32,6 @@ const NEXT_ADDR_MAP: any = {
     UNUSED_TAPROOT_PUBKEY: 5
 };
 
-export interface ILightningNodeConnect {
-    listPeers(): Promise<Peer[]>;
-    disconnectPeer(pubkey: string): Promise<boolean>;
-    getTransactions(data?: any): Promise<any>;
-    getChannels(): Promise<any>;
-    getPendingChannels(): Promise<any>;
-    getClosedChannels(): Promise<any>;
-    getChannelInfo(chanId: string): Promise<any>;
-    getBlockchainBalance(data?: any): Promise<any>;
-    getLightningBalance(): Promise<any>;
-    // ... other methods
-}
-
-export interface Peer {
-    pub_key: string;
-    address: string;
-    bytes_sent: string;
-    bytes_recv: string;
-    sat_sent: string;
-    sat_recv: string;
-    inbound: boolean;
-    ping_time: string;
-    sync_type: string;
-}
-
 export default class LightningNodeConnect {
     lnc: any;
     listener: any;
@@ -602,5 +577,9 @@ export default class LightningNodeConnect {
     disconnectPeer = async (pubKey: string) =>
         await this.lnc.lnd.lightning
             .disconnectPeer({ pub_key: pubKey })
-            .then((data: lnrpc.DisconnectPeerResponse) => snakeize(data));
+            .then(() => true)
+            .catch((error: Error) => {
+                console.error('Failed to disconnect peer:', error);
+                return false;
+            });
 }

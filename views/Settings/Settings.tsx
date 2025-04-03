@@ -539,7 +539,7 @@ export default class Settings extends React.Component<SettingsProps, {}> {
                                         color: themeColor('text')
                                     }}
                                 >
-                                    {localeString('views.Settings.peers')} Peers
+                                    {localeString('views.Settings.peers')}
                                 </Text>
                                 <View style={styles.ForwardArrow}>
                                     <ForwardIcon stroke={forwardArrowColor} />

@@ -14,7 +14,6 @@ import {
 import { localeString } from '../utils/LocaleUtils';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import { doTorRequest, RequestMethod } from '../utils/TorUtils';
-import { Peer } from './LightningNodeConnect';
 
 const calls = new Map<string, Promise<any>>();
 
@@ -434,33 +433,4 @@ export default class CLNRest {
     isLNDBased = () => false;
     supportInboundFees = () => false;
     supportsDevTools = () => true;
-
-    async listPeers(): Promise<Peer[]> {
-        try {
-            // If CLN REST API supports listing peers, implement the actual API call here
-            // For now, return an empty array as a placeholder
-            console.log('CLNRest: listPeers not fully implemented');
-            return [];
-        } catch (error) {
-            console.error('Error listing peers in CLNRest:', error);
-            return [];
-        }
-    }
-
-    async disconnectPeer(pubkey: string): Promise<boolean> {
-        try {
-            // If CLN REST API supports disconnecting peers, implement the actual API call here
-            // For now, return false as a placeholder
-            console.log(
-                `CLNRest: disconnectPeer not fully implemented for ${pubkey}`
-            );
-            return false;
-        } catch (error) {
-            console.error(
-                `Error disconnecting peer ${pubkey} in CLNRest:`,
-                error
-            );
-            return false;
-        }
-    }
 }

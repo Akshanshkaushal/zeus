@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import { StackNavigationProp } from '@react-navigation/stack';
- 
 
 import ForwardIcon from '../../assets/images/SVG/Caret Right-3.svg';
 import ChannelsIcon from '../../assets/images/SVG/Channels.svg';
@@ -510,7 +509,6 @@ export default class Settings extends React.Component<SettingsProps, {}> {
                             </TouchableOpacity>
                         </View>
                     )}
-
                 </ScrollView>
             </Screen>
         );

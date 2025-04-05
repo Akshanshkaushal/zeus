@@ -314,11 +314,11 @@ export default class EmbeddedLND extends LND {
     supportsAddressesWithDerivationPaths = () => this.supports('v0.18.0');
     isLNDBased = () => true;
     supportInboundFees = () => this.supports('v0.18.0');
-    supportsPeerManagement = () => true;  
+    supportsPeerManagement = () => true;
 
     listPeers = async () => {
         try {
-            const response = await listPeers(); 
+            const response = await listPeers();
 
             const peers = (response.peers || []).map((peer) => {
                 const formattedPeer = {
@@ -334,13 +334,13 @@ export default class EmbeddedLND extends LND {
                         typeof peer.sync_type === 'string'
                             ? peer.sync_type
                             : peer.sync_type?.toString() || ''
-                }; 
+                };
                 return formattedPeer;
             });
- 
+
             return peers;
         } catch (error) {
-            console.error('Error fetching peers:', error);  
+            console.error('Error fetching peers:', error);
             throw error;
         }
     };

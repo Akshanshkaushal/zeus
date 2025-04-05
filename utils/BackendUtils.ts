@@ -52,7 +52,6 @@ class BackendUtils {
         return cls[funcName] ? cls[funcName].apply(cls, args) : false;
     };
 
-  
     getTransactions = (...args: any[]) => this.call('getTransactions', args);
     getChannels = (...args: any[]) => this.call('getChannels', args);
     getPendingChannels = (...args: any[]) =>

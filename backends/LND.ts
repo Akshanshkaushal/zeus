@@ -723,7 +723,7 @@ export default class LND {
     supportsAddressesWithDerivationPaths = () => this.supports('v0.18.0');
     isLNDBased = () => true;
     supportInboundFees = () => this.supports('v0.18.0');
-    supportsPeerManagement = () => true;  
+    supportsPeerManagement = () => true;
 
     listPeers = () =>
         this.getRequest('/v1/peers').then(

@@ -433,5 +433,5 @@ export default class CLNRest {
     isLNDBased = () => false;
     supportInboundFees = () => false;
     supportsDevTools = () => true;
-    supportsPeerManagement = () => false; 
+    supportsPeerManagement = () => false;
 }

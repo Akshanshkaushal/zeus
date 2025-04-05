@@ -567,6 +567,7 @@ export default class LightningNodeConnect {
     supportsBolt11BlindedRoutes = () => this.supports('v0.18.3');
     supportsAddressesWithDerivationPaths = () => this.supports('v0.18.0');
     isLNDBased = () => true;
+    supportsPeerManagement = () => true;
     supportInboundFees = () => this.supports('v0.18.0');
 
     listPeers = async (latestError: boolean = false) =>

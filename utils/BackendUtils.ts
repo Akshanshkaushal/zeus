@@ -52,30 +52,7 @@ class BackendUtils {
         return cls[funcName] ? cls[funcName].apply(cls, args) : false;
     };
 
-    getBackendType(): string {
-        const { implementation } = settingsStore;
-        console.log('implementation', implementation);
-
-        switch (implementation) {
-            case 'lnd':
-            case 'embedded-lnd':
-            case 'lightning-node-connect':
-                return 'LND';
-            case 'cln-rest':
-                return 'CLN';
-            case 'lndhub':
-            case 'nostr-wallet-connect':
-                return 'Custodial';
-            default:
-                return 'Unknown';
-        }
-    }
-
-    supportsPeerManagement(): boolean {
-        const backendType = this.getBackendType();
-        return backendType === 'LND' || backendType === 'CLN';
-    }
-
+  
     getTransactions = (...args: any[]) => this.call('getTransactions', args);
     getChannels = (...args: any[]) => this.call('getChannels', args);
     getPendingChannels = (...args: any[]) =>
@@ -200,6 +177,8 @@ class BackendUtils {
     supportsDevTools = () => {
         return this.isLNDBased() || this.call('supportsDevTools');
     };
+
+    supportsPeerManagement = () => this.call('supportsPeerManagement');
 
     // LNC
     initLNC = (...args: any[]) => this.call('initLNC', args);
